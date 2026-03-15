@@ -1,0 +1,22 @@
+# Autoresearch artifacts
+autoresearch.jsonl
+autoresearch-dashboard.md
+autoresearch.ideas.md
+.autoresearch-off
+experiments/
+plots/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+
+# Data (large files)
+data/training_data.tsv
+data/bacdive_data.json
+data/genomes/
+
+# OS
+.DS_Store
