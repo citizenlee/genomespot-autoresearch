@@ -67,7 +67,7 @@ def build_pipeline(condition: str):
     """
     if condition == "oxygen":
         # --- OXYGEN (classification) ---
-        # AA + pI + derived from all compartments (N=7300, can handle more features)
+        # AA + pI + derived from "all" compartment, higher C (less reg, N=7300)
         features = (
             _prepend(BASE_AAS, ["all"])
             + _prepend(BASE_PIS, ["all"])
@@ -75,7 +75,7 @@ def build_pipeline(condition: str):
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
-            ("model", LogisticRegression(C=1.0, max_iter=50000, solver="lbfgs")),
+            ("model", LogisticRegression(C=10.0, max_iter=50000, solver="lbfgs")),
         ])
 
     elif condition == "temperature":
