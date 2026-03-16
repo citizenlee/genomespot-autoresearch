@@ -81,8 +81,11 @@ def build_pipeline(condition: str):
 
     elif condition == "temperature":
         # --- TEMPERATURE (regression) ---
-        # BaggingRegressor(Lasso) on 60 AA features
-        features = _prepend(BASE_AAS, COMPARTMENTS)
+        # BaggingRegressor(Lasso) on 60 AA + GC content + coding density
+        features = (
+            _prepend(BASE_AAS, COMPARTMENTS)
+            + ["all_nt_C", "all_protein_coding_density"]
+        )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
             ("model", BaggingRegressor(
