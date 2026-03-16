@@ -80,11 +80,8 @@ def build_pipeline(condition: str):
 
     elif condition == "temperature":
         # --- TEMPERATURE (regression) ---
-        # LassoCV auto alpha; 60 AA + thermostable_freq
-        features = (
-            _prepend(BASE_AAS, COMPARTMENTS)
-            + ["all_mean_thermostable_freq", "intracellular_soluble_mean_thermostable_freq"]
-        )
+        # LassoCV auto alpha; 60 AA features only (thermostable_freq was noise)
+        features = _prepend(BASE_AAS, COMPARTMENTS)
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
             ("model", LassoCV(cv=5, max_iter=50000)),
