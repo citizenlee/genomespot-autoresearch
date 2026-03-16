@@ -101,12 +101,12 @@ def build_pipeline(condition: str):
 
     elif condition == "ph":
         # --- PH (regression) ---
-        # 60 AA + diff_extra_intra + all_mean_pi + all_pis_basic
+        # 60 AA + diff_extra_intra + all_mean_pi + all_pis_basic + all_pis_acidic
         features = (
             _prepend(BASE_AAS, COMPARTMENTS)
             + ["diff_extra_intra_aa_E", "diff_extra_intra_aa_D",
                "diff_extra_intra_mean_thermostable_freq", "all_mean_pi",
-               "all_pis_basic"]
+               "all_pis_basic", "all_pis_acidic"]
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
