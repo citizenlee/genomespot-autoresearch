@@ -106,7 +106,7 @@ def build_pipeline(condition: str):
             _prepend(BASE_AAS, COMPARTMENTS)
             + ["diff_extra_intra_aa_E", "diff_extra_intra_aa_D",
                "diff_extra_intra_mean_thermostable_freq", "all_mean_pi",
-               "all_pis_basic", "all_pis_acidic"]
+               "all_pis_basic", "all_pis_acidic", "membrane_pis_5_6"]
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
