@@ -80,14 +80,14 @@ def build_pipeline(condition: str):
 
     elif condition == "temperature":
         # --- TEMPERATURE (regression) ---
-        # Baseline 60 AA + 2 high-corr features: mean_thermostable_freq (r=0.62, 0.59)
+        # LassoCV auto alpha; 60 AA + thermostable_freq
         features = (
             _prepend(BASE_AAS, COMPARTMENTS)
             + ["all_mean_thermostable_freq", "intracellular_soluble_mean_thermostable_freq"]
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
-            ("model", Lasso(alpha=0.01, max_iter=50000)),
+            ("model", LassoCV(cv=5, max_iter=50000)),
         ])
 
     elif condition == "salinity":
