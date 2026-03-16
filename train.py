@@ -12,7 +12,7 @@ The agent can change:
 """
 
 from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
-from sklearn.linear_model import Lasso, LogisticRegression
+from sklearn.linear_model import Lasso, LassoCV, LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -92,14 +92,14 @@ def build_pipeline(condition: str):
 
     elif condition == "salinity":
         # --- SALINITY (regression) ---
-        # Baseline 60 AA + 3 high-corr pI features (r=0.72-0.74!)
+        # LassoCV for auto alpha; 60 AA + pI features
         features = (
             _prepend(BASE_AAS, COMPARTMENTS)
             + ["intracellular_soluble_pis_4_5", "membrane_pis_4_5", "all_pis_4_5"]
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
-            ("model", Lasso(alpha=0.01, max_iter=50000)),
+            ("model", LassoCV(cv=5, max_iter=50000)),
         ])
 
     elif condition == "ph":
