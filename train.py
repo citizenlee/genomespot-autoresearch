@@ -81,11 +81,14 @@ def build_pipeline(condition: str):
 
     elif condition == "temperature":
         # --- TEMPERATURE (regression) ---
-        # LassoCV auto alpha; 60 AA features only (thermostable_freq was noise)
+        # BaggingRegressor(Lasso) on 60 AA features
         features = _prepend(BASE_AAS, COMPARTMENTS)
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
-            ("model", LassoCV(cv=5, max_iter=50000)),
+            ("model", BaggingRegressor(
+                estimator=Lasso(alpha=0.01, max_iter=50000),
+                n_estimators=20, max_samples=0.8, random_state=42,
+            )),
         ])
 
     elif condition == "salinity":
