@@ -1,1 +1,2 @@
 {"type":"config","name":"genomespot-composite","metricName":"composite_score","metricUnit":"","bestDirection":"higher"}
+{"run":8,"commit":"ec503c5","metric":0.623770,"metrics":{"oxygen_f1":0.943791,"temperature_r2":0.707157,"salinity_r2":0.596755,"ph_r2":0.435573,"temperature_rmse":6.5494,"salinity_rmse":2.7404,"ph_rmse":1.0537},"status":"discard","description":"VotingRegressor(Lasso+Ridge) on 60 AA features","timestamp":1773636486,"segment":0}

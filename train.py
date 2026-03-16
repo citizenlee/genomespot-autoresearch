@@ -67,7 +67,6 @@ def build_pipeline(condition: str):
     """
     if condition == "oxygen":
         # --- OXYGEN (classification) ---
-        # Baseline: LogisticRegression on 20 AA features, no localization
         features = _prepend(BASE_AAS, ["all"])
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
@@ -76,8 +75,11 @@ def build_pipeline(condition: str):
 
     elif condition == "temperature":
         # --- TEMPERATURE (regression) ---
-        # Baseline: Lasso on 60 AA features (3 compartments)
-        features = _prepend(BASE_AAS, COMPARTMENTS)
+        # Baseline 60 AA + 2 high-corr features: mean_thermostable_freq (r=0.62, 0.59)
+        features = (
+            _prepend(BASE_AAS, COMPARTMENTS)
+            + ["all_mean_thermostable_freq", "intracellular_soluble_mean_thermostable_freq"]
+        )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
             ("model", Lasso(alpha=0.01, max_iter=50000)),
@@ -85,8 +87,11 @@ def build_pipeline(condition: str):
 
     elif condition == "salinity":
         # --- SALINITY (regression) ---
-        # Baseline: Lasso on 60 AA features (3 compartments)
-        features = _prepend(BASE_AAS, COMPARTMENTS)
+        # Baseline 60 AA + 3 high-corr pI features (r=0.72-0.74!)
+        features = (
+            _prepend(BASE_AAS, COMPARTMENTS)
+            + ["intracellular_soluble_pis_4_5", "membrane_pis_4_5", "all_pis_4_5"]
+        )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
             ("model", Lasso(alpha=0.01, max_iter=50000)),
@@ -94,8 +99,12 @@ def build_pipeline(condition: str):
 
     elif condition == "ph":
         # --- PH (regression) ---
-        # Baseline: Lasso on 60 AA features (3 compartments)
-        features = _prepend(BASE_AAS, COMPARTMENTS)
+        # Baseline 60 AA + 3 high-corr diff_extra_intra features (r=0.38-0.46)
+        features = (
+            _prepend(BASE_AAS, COMPARTMENTS)
+            + ["diff_extra_intra_aa_E", "diff_extra_intra_aa_D",
+               "diff_extra_intra_mean_thermostable_freq"]
+        )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
             ("model", Lasso(alpha=0.01, max_iter=50000)),
