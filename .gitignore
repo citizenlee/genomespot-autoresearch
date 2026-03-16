@@ -4,7 +4,6 @@ autoresearch-dashboard.md
 autoresearch.ideas.md
 .autoresearch-off
 experiments/
-plots/
 
 # Python
 __pycache__/
@@ -14,7 +13,6 @@ __pycache__/
 venv/
 
 # Data (large files)
-data/training_data.tsv
 data/bacdive_data.json
 data/genomes/
 
