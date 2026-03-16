@@ -11,6 +11,7 @@ The agent can change:
 - Ensemble strategies
 """
 
+from sklearn.ensemble import BaggingRegressor
 from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
 from sklearn.linear_model import Lasso, LassoCV, LogisticRegression
 from sklearn.pipeline import Pipeline
@@ -101,7 +102,7 @@ def build_pipeline(condition: str):
 
     elif condition == "ph":
         # --- PH (regression) ---
-        # 60 AA + diff_extra_intra + all_mean_pi + all_pis_basic + all_pis_acidic
+        # BaggingRegressor(Lasso) for variance reduction on small N
         features = (
             _prepend(BASE_AAS, COMPARTMENTS)
             + ["diff_extra_intra_aa_E", "diff_extra_intra_aa_D",
@@ -110,7 +111,10 @@ def build_pipeline(condition: str):
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
-            ("model", Lasso(alpha=0.01, max_iter=50000)),
+            ("model", BaggingRegressor(
+                estimator=Lasso(alpha=0.01, max_iter=50000),
+                n_estimators=20, max_samples=0.8, random_state=42,
+            )),
         ])
 
     else:
