@@ -84,7 +84,8 @@ def build_pipeline(condition: str):
         # BaggingRegressor(Lasso) on 60 AA + GC content + coding density
         features = (
             _prepend(BASE_AAS, COMPARTMENTS)
-            + ["all_nt_C", "all_protein_coding_density"]
+            + ["all_nt_C", "all_protein_coding_density",
+               "all_mean_thermostable_freq"]
         )
         pipeline = Pipeline([
             ("scaler", StandardScaler()),
